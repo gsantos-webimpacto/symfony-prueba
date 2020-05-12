@@ -1,27 +1,30 @@
 <?php
+// index.php
+session_start();
 
-use App\Kernel;
-use Symfony\Component\ErrorHandler\Debug;
-use Symfony\Component\HttpFoundation\Request;
-
-require dirname(__DIR__).'/config/bootstrap.php';
-
-if ($_SERVER['APP_DEBUG']) {
-    umask(0000);
-
-    Debug::enable();
+// If user is logged in, retrieve identity from session.
+$identity = null;
+if (isset($_SESSION['identity'])) {
+    $identity = $_SESSION['identity'];
 }
+?>
 
-if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? false) {
-    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
-}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home page</title>
+    </head>
+    <body>
+        <h1>Home</h1>
+        <?php if ($identity==null): ?>
+        <a href="login.php">Sign in</a>
+        <?php else: ?>
+        <strong>Welcome, <?= $identity ?></strong> <a href="logout.php">Sign out</a>
+        <?php endif; ?>
 
-if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
-    Request::setTrustedHosts([$trustedHosts]);
-}
-
-$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
-$request = Request::createFromGlobals();
-$response = $kernel->handle($request);
-$response->send();
-$kernel->terminate($request, $response);
+        <p>
+            This is a simple website to demonstrate the advantages of a PHP framework
+            and disadvantages of "pure" PHP.
+        </p>
+    </body>
+</html>
