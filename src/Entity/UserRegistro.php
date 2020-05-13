@@ -1,6 +1,6 @@
 <?php
 
-namespace App/Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,15 +21,36 @@ class UserRegistro
 
     /**
      * @var \User
-     *
+     * @ORM\Column(name="idpais", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="correo", referencedColumnName="correo")
      * })
      */
     private $correo;
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getCorreo(): ?User
+    {
+        return $this->correo;
+    }
+
+    public function setCorreo(?User $correo): self
+    {
+        $this->correo = $correo;
+
+        return $this;
+    }
 
 
 }

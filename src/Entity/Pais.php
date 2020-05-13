@@ -1,6 +1,6 @@
 <?php
 
-namespace App/Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +27,23 @@ class Pais
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
      */
     private $nombre;
+
+    public function getIdpais(): ?int
+    {
+        return $this->idpais;
+    }
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(string $nombre): self
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
 
 
 }

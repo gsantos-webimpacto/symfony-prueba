@@ -1,6 +1,6 @@
 <?php
 
-namespace App/Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +27,23 @@ class Idioma
      * @ORM\Column(name="descripcion", type="string", length=100, nullable=false)
      */
     private $descripcion;
+
+    public function getIdidioma(): ?int
+    {
+        return $this->ididioma;
+    }
+
+    public function getDescripcion(): ?string
+    {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion(string $descripcion): self
+    {
+        $this->descripcion = $descripcion;
+
+        return $this;
+    }
 
 
 }

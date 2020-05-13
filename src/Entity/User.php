@@ -1,125 +1,114 @@
 <?php
 
-namespace App/Entity;
+namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * User
- *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="uk_correo_user", columns={"correo"})}, indexes={@ORM\Index(name="fk_user_pais", columns={"pais"}), @ORM\Index(name="fk_user_provincia", columns={"provincia"}), @ORM\Index(name="fk_user_idioma", columns={"idioma"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="iduser", type="string", length=22, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    private $iduser;
+    private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $nombre;
+    private $email;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="apellidos", type="string", length=100, nullable=false)
+     * @ORM\Column(type="json")
      */
-    private $apellidos;
+    private $roles = [];
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="correo", type="string", length=100, nullable=false)
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
-    private $correo;
+    private $password;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
 
     /**
-     * @var \DateTime
+     * A visual identifier that represents this user.
      *
-     * @ORM\Column(name="fechadenacimiento", type="date", nullable=false)
+     * @see UserInterface
      */
-    private $fechadenacimiento;
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="sexo", type="string", length=6, nullable=false)
+     * @see UserInterface
      */
-    private $sexo;
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="telefono", type="string", length=20, nullable=false)
+     * @see UserInterface
      */
-    private $telefono;
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="Datos adicionales", type="string", length=1000, nullable=false)
+     * @see UserInterface
      */
-    private $datosAdicionales;
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="ciudad", type="string", length=100, nullable=false)
+     * @see UserInterface
      */
-    private $ciudad;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="direccion", type="string", length=100, nullable=false)
-     */
-    private $direccion;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="codigopostal", type="integer", nullable=false)
-     */
-    private $codigopostal;
-
-    /**
-     * @var \Idioma
-     *
-     * @ORM\ManyToOne(targetEntity="Idioma")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idioma", referencedColumnName="ididioma")
-     * })
-     */
-    private $idioma;
-
-    /**
-     * @var \Pais
-     *
-     * @ORM\ManyToOne(targetEntity="Pais")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pais", referencedColumnName="idpais")
-     * })
-     */
-    private $pais;
-
-    /**
-     * @var \Provincia
-     *
-     * @ORM\ManyToOne(targetEntity="Provincia")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="provincia", referencedColumnName="idprovincia")
-     * })
-     */
-    private $provincia;
-
-
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
 }
