@@ -8,3 +8,7 @@ app_lucky_number:
 app_HelloWorld_hello:
     path: /HelloWorld/hello
     controller: App\Controller\HelloWorld::hello
+
+app_edit_cuenta:
+    path: /EditarCuentaController/edit
+    controller: App\Controller\EditarCuentaController::edit
