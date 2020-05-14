@@ -29,7 +29,7 @@ class Register extends AbstractController
     public function registrar(EntityManagerInterface $manager)
     // public function registrar()
     {   
-        // $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
         
         dump("LLega a registrar");
         dump($_REQUEST);
@@ -46,13 +46,18 @@ class Register extends AbstractController
         $manager = $this->getDoctrine()->getRepository(Provincia::class);
         $provincia=$manager->find($_REQUEST["provincia"]);
 
-        $manager = $this->getDoctrine()->getRepository(User::class);
-        // dump($pais);
+        // $manager = $this->getDoctrine()->getRepository(User::class);
+        $date = strtotime($_REQUEST["fechaNacimiento"]);
+        dump($date);
+        $date=date('yy-m-d', $date);
+        $date=date($date);
+        dump($date);
+        
         $user = new User();
         $user->setNombre($_REQUEST["nombre"]);
         $user->setApellidos($_REQUEST["apellidos"]);
         $user->setUsername($_REQUEST["email"]); 
-        // $user->setFechadenacimiento($_REQUEST["fechaNacimiento"]);
+        $user->setFechadenacimiento($date);
         $user->setSexo($_REQUEST["sexo"]);
         $user->setTelefono($_REQUEST["telefono"]);
         $user->setDatosadicionales($_REQUEST["datosAdicionales"]);
@@ -65,8 +70,8 @@ class Register extends AbstractController
         $user->setRoles(['ROLE_USER']);
         $user->setPassword('$argon2id$v=19$m=65536,t=4,p=1$STdSdEhjYWp5M1BsTUdPTg$c5S6BGv/sdbTuCAA13IIpev8k3LnbBB6smOmsiFOhF4');
         dump($user);
-        // $manager->persist($user);
-        // $manager->flush();
+        $entityManager->persist($user);
+        $entityManager->flush();
         return $this->render('Registro/register.html.twig');
     }
     
