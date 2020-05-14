@@ -12,26 +12,26 @@
 
 <body>
     <div class="container">
-        <form>
+        <form action="/mi-cuenta/editarCuenta">
             <div class="row">
                 <label class="col-9 mt-4" for="i-id">ID</label>
                 <input type="text" name="id" id="i-id" class="form-control col-4"
-                    placeholder="M-02-T-150-0000000009X" value={{app.user.id}} />
+                    placeholder="M-02-T-150-0000000009X" value='{{app.user.id}}' disabled/>
             </div>
             <div class="row mb-4">
                 <div class="col-6 mr-3 row">
                     <label class="col-8 mt-4" for="i-nombre">*Nombre</label>
                     <input type="text" name="nombre" id="i-nombre" class="form-control col-8" placeholder="Nombre"
-                        required value={{app.user.nombre}} />
+                        required value='{{app.user.nombre}}' />
 
                     <label class="col-8 mt-4" for="i-apellidos">*Apellidos</label>
                     <input type="text" name="apellidos" id="i-apellidos" class="form-control col-8"
-                        placeholder="Apellidos" required value={{app.user.apellidos}} />
+                        placeholder="Apellidos" required value='{{app.user.apellidos}}' />
 
                     <label class="col-8 mt-4" for="i-email">*Correo electrónico</label>
                     <div class="input-group is-invalid">
                         <input type="text" name="email" id="i-email" class="form-control col-8"
-                            placeholder="example@correo.com" value={{app.user.username}} required />
+                            placeholder="example@correo.com" value='{{app.user.username}}' required />
                         <div class="input-group-append">
                             <button id="btn-password" class="btn btn-outline-secondary" type="button">
                                 Cambiar
@@ -61,18 +61,18 @@
                     </div>
 
                     <div class="form-check form-check-inline col-4 mt-4">
-                        <input class="form-check-input fa-2x" type="radio" name="sexo" id="i-hombre" value="hombre"
+                        <input class="form-check-input fa-2x" type="radio" name="sexo" id="i-hombre" value="Hombre"
                             required {% if app.user.sexo=="Hombre" %}checked{% endif %} />
                         <label class="form-check-label" for="i-hombre">Hombre</label>
                     </div>
                     <div class="form-check form-check-inline col-4 mt-4">
-                        <input class="form-check-input fa-2x" type="radio" name="sexo" id="i-mujer" value="mujer"
+                        <input class="form-check-input fa-2x" type="radio" name="sexo" id="i-mujer" value="Mujer"
                             required {% if app.user.sexo=="Mujer" %}checked{% endif %} />
                         <label class="form-check-label" for="i-mujer">Mujer</label>
                     </div>
 
                     <label class="col-8 mt-4" for="i-telefono">Teléfono</label>
-                    <input type="text" name="telefono" id="i-telefono" class="form-control col-8" value={{app.user.telefono}} />
+                    <input type="text" name="telefono" id="i-telefono" class="form-control col-8" value='{{app.user.telefono}}' />
 
                     <label class="col-8 mt-4" for="i-idioma">*Idioma</label>
                     <div class="input-group is-invalid">
@@ -118,13 +118,15 @@
                     </div>
 
                     <label class="col-8 mt-4" for="i-ciudad">Ciudad</label>
-                    <input type="text" name="ciudad" id="i-ciudad" class="form-control col-8" value={{app.user.ciudad}} />
+                    <input type="text" name="ciudad" id="i-ciudad" class="form-control col-8" value='{{app.user.ciudad}}' />
 
                     <label class="col-8 mt-4" for="i-direccion">Dirección</label>
-                    <input type="text" name="direccion" id="i-direccion" class="form-control col-12" value={{app.user.direccion}} />
+                    <input type="text" name="direccion" id="i-direccion" class="form-control col-12" value='{{app.user.direccion}}' />
 
                     <label class="col-8 mt-4" for="i-codigoPostal">CódigoPostal</label>
-                    <input type="number" name="codigoPostal" id="i-codigoPostal" class="form-control col-8" value={{app.user.codigopostal}} />
+                    <input type="number" name="codigoPostal" id="i-codigoPostal" class="form-control col-8" value='{{app.user.codigopostal}}' />
+                
+                    <button type="submit" class="btn btn-primary col-12 mt-5">Guardar</button>
                 </div>
             </div>
         </form>
