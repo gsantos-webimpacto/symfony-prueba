@@ -152,6 +152,16 @@ class User implements UserInterface
     {
         return (string) $this->email;
     }
+/** 
+    * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function setUsername(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
 
     public function setUsername(String $email): self
     {

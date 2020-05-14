@@ -30,33 +30,21 @@ class Register extends AbstractController
     // public function registrar()
     {   
         $entityManager = $this->getDoctrine()->getManager();
-        
-        dump("LLega a registrar");
-        dump($_REQUEST);
-        dump($_REQUEST["nombre"]);
-        // dump($_REQUEST[nombre]);
-        $manager = $this->getDoctrine()->getRepository(Pais::class);
-        // $pais=new Pais();
-        $pais=$manager->find($_REQUEST["pais"]);
 
+        $manager = $this->getDoctrine()->getRepository(Pais::class);
+        $pais=$manager->find($_REQUEST["pais"]);
         $manager = $this->getDoctrine()->getRepository(Idioma::class);
         $idioma=$manager->find($_REQUEST["idioma"]);
         dump($idioma);
-
         $manager = $this->getDoctrine()->getRepository(Provincia::class);
         $provincia=$manager->find($_REQUEST["provincia"]);
-
-        // $manager = $this->getDoctrine()->getRepository(User::class);
-        $date = strtotime($_REQUEST["fechaNacimiento"]);
-        dump($date);
-        $date=date('yy-m-d', $date);
-        $date=date($date);
-        dump($date);
+        
         
         $user = new User();
         $user->setNombre($_REQUEST["nombre"]);
         $user->setApellidos($_REQUEST["apellidos"]);
         $user->setUsername($_REQUEST["email"]); 
+        $date = date_create_from_format('Y-m-d', $_REQUEST["fechaNacimiento"]);
         $user->setFechadenacimiento($date);
         $user->setSexo($_REQUEST["sexo"]);
         $user->setTelefono($_REQUEST["telefono"]);
@@ -68,7 +56,11 @@ class Register extends AbstractController
         $user->setPais($pais);
         $user->setProvincia($provincia);
         $user->setRoles(['ROLE_USER']);
-        $user->setPassword('$argon2id$v=19$m=65536,t=4,p=1$STdSdEhjYWp5M1BsTUdPTg$c5S6BGv/sdbTuCAA13IIpev8k3LnbBB6smOmsiFOhF4');
+        $passwordForm = $_REQUEST["password"];
+        if($passwordForm!=""){
+            $password = $passwordEncoder->encodePassword($user,$passwordForm);
+            $user->setPassword($password);
+        }
         dump($user);
         $entityManager->persist($user);
         $entityManager->flush();
