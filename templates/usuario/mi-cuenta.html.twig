@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    {% if is_granted('ROLE_USER') %}
     <div class="container">
         <form action="/mi-cuenta/editarCuenta">
             <div class="row">
@@ -41,7 +42,7 @@
 
                     <label class="col-8 mt-4" for="i-password">*Contraseña</label>
                     <div class="input-group is-invalid">
-                        <input type="password" name="password" id="i-password" class="form-control col-8" required />
+                        <input type="password" name="password" id="i-password" class="form-control col-8"  placeholder="Escribe aquí tu nueva contraseña" />
                         <div class="input-group-append">
                             <button id="btn-cambiarPassword" class="btn btn-outline-secondary" type="button">
                                 Cambiar Contraseña
@@ -90,7 +91,7 @@
                 <div class="col-5 row ml-2 pb-5 mb-5">
                     <label for="i-datosAdicionales" class="col-8 mt-4">Datos Adicionales</label>
                     <textarea class="form-control col-12" id="datosAdicionales" name="datosAdicionales"
-                        style="resize: none;"> {{app.user.datosadicionales}} </textarea>
+                        style="resize: none;">{{app.user.datosadicionales}}</textarea>
 
                     <label class="col-8 mt-4" for="i-pais">*País</label>
                     <div class="input-group is-invalid">
@@ -131,6 +132,12 @@
             </div>
         </form>
     </div>
+    {% else %}
+        <div>
+            <p class="display-4">Para acceder a la información de tu cuenta debes logearte:</p>
+            <a href="/login">Click aquí para entrar</a>
+        </div>
+    {% endif %}
 </body>
 
 </html>
