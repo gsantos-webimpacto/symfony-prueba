@@ -12,7 +12,7 @@
 
 <body>
     <div class="container">
-        <form>
+        <form action="/register/registrarusuario">
             <div class="row">
                 <label class="col-9 mt-4" for="i-id">ID</label>
                 <input type="text" name="id" id="i-id" class="form-control col-4"
@@ -77,13 +77,9 @@
                     <label class="col-8 mt-4" for="i-idioma">*Idioma</label>
                     <div class="input-group is-invalid">
                         <select id="i-idioma" class="form-control col-8" name="idioma" required>
-                            <option selected>Español</option>
+                            <option value="1" selected>Español</option>
                             <option>...</option>
                         </select>
-                        {# <div class="input-group-append">
-                            <button type="button"
-                                class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"></button>
-                        </div> #}
                     </div>
                 </div>
                 <div class="col-5 row ml-2 pb-5 mb-5">
@@ -94,24 +90,16 @@
                     <label class="col-8 mt-4" for="i-pais">*País</label>
                     <div class="input-group is-invalid">
                         <select id="i-pais" class="form-control col-8" name="pais" required>
-                            <option selected>España</option>
+                            <option value="1" selected>España</option>
                             <option>...</option>
                         </select>
-                        {# <div class="input-group-append">
-                            <button type="button"
-                                class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"></button>
-                        </div> #}
                     </div>
                     <label class="col-8 mt-4" for="i-provincia">*Provincia</label>
                     <div class="input-group is-invalid">
                         <select id="i-provincia" class="form-control col-8" name="provincia" required>
-                            <option selected>Madrid</option>
+                            <option value="1" selected>Madrid</option>
                             <option>...</option>
                         </select>
-                        {# <div class="input-group-append">
-                            <button type="button"
-                                class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"></button>
-                        </div> #}
                     </div>
 
                     <label class="col-8 mt-4" for="i-ciudad">Ciudad</label>
@@ -122,8 +110,12 @@
 
                     <label class="col-8 mt-4" for="i-codigoPostal">CódigoPostal</label>
                     <input type="number" name="codigoPostal" id="i-codigoPostal" class="form-control col-8" />
+                    
+                    <button class="btn-primary btn col-5" type="submit">Guardar</button>
                 </div>
             </div>
+            {# <input type="hidden" name="operacion" value"registro1" id="i-codigoPostal" class="form-control col-8" />
+            <button class="btn-primary btn col-5" type="submit">Guardar</button> #}
         </form>
     </div>
 </body>
