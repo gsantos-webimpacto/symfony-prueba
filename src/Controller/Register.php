@@ -71,7 +71,7 @@ class Register extends AbstractController
         dump($user);
         $entityManager->persist($user);
         $entityManager->flush();
-        return $this->render('/login');
+        return $this->redirect('/login');
     }
     
 }
