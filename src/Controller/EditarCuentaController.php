@@ -7,6 +7,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
+use App\Entity\User;
+use App\Entity\Pais;
+use App\Entity\Idioma;
+use App\Entity\Provincia;
 class EditarCuentaController extends AbstractController
 {
     /** 
@@ -16,7 +20,14 @@ class EditarCuentaController extends AbstractController
     {
         //$mensaje = 'Hello World!';
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        return $this->render('usuario/mi-cuenta.html.twig');
+        $em = $this->getDoctrine()->getManager()->getRepository(Pais::class);         
+        $listadopaises=$em->findAll(); 
+        $em = $this->getDoctrine()->getRepository(Provincia::class);         
+        $listadoprovincias=$em->findAll();
+        $em = $this->getDoctrine()->getRepository(Idioma::class);         
+        $listadoidiomas=$em->findAll();
+        return $this->render('usuario/mi-cuenta.html.twig',array('listadopaises'=>$listadopaises,'listadoprovincias'=>$listadoprovincias
+                                                                    ,'listadoidiomas'=>$listadoidiomas));
     }
     /** 
     * @Route("/mi-cuenta/editarCuenta") 
@@ -41,11 +52,29 @@ class EditarCuentaController extends AbstractController
         $user->setSexo($_REQUEST["sexo"]);
         $user->setTelefono($_REQUEST["telefono"]);
         $user->setDatosadicionales($_REQUEST["datosAdicionales"]);
+        $entityManager = $this->getDoctrine()->getRepository(Pais::class);
+        $pais=$entityManager->find($_REQUEST["pais"]);
+        $user->setPais($pais);
+        $entityManager = $this->getDoctrine()->getRepository(Idioma::class);
+        $idioma=$entityManager->find($_REQUEST["idioma"]);
+        $user->setIdioma($idioma);
+        $entityManager = $this->getDoctrine()->getRepository(Provincia::class);
+        $provincia=$entityManager->find($_REQUEST["provincia"]);
+        $user->setProvincia($provincia);
         $user->setCiudad($_REQUEST["ciudad"]);
         $user->setDireccion($_REQUEST["direccion"]);
         $user->setCodigopostal($_REQUEST["codigoPostal"]);
         //dump($user);
+        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
-        return $this->render('usuario/mi-cuenta.html.twig');
+
+        $em = $this->getDoctrine()->getManager()->getRepository(Pais::class);         
+        $listadopaises=$em->findAll(); 
+        $em = $this->getDoctrine()->getRepository(Provincia::class);         
+        $listadoprovincias=$em->findAll();
+        $em = $this->getDoctrine()->getRepository(Idioma::class);         
+        $listadoidiomas=$em->findAll();
+        return $this->render('usuario/mi-cuenta.html.twig',array('listadopaises'=>$listadopaises,'listadoprovincias'=>$listadoprovincias
+                                                                    ,'listadoidiomas'=>$listadoidiomas));
     }
 }

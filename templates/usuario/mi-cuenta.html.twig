@@ -53,7 +53,7 @@
                     <label class="col-8 mt-4" for="i-fNacimiento">*Fecha de nacimiento</label>
                     <div class="input-group is-invalid">
                         <input type="date" name="fechaNacimiento" id="i-fNacimiento" class="form-control col-8"
-                            required />
+                            required value="{{app.user.fechadenacimiento|date("Y-m-d")}}"/>
                         <div class="input-group-append">
                             <button id="btn-cambiarPassword" class="btn btn-outline-secondary" type="button">
                                 <img src="" alt="Calendario" />
@@ -78,9 +78,9 @@
                     <label class="col-8 mt-4" for="i-idioma">*Idioma</label>
                     <div class="input-group is-invalid">
                         <select id="i-idioma" class="form-control col-8" name="idioma" required>
-                            <option>...</option>
-                            <option {% if app.user.idioma.ididioma==1 %}selected{% endif %} >Español</option>
-                            <option>...</option>
+                            {% for idioma in listadoidiomas %}    
+                                <option  value='{{idioma.ididioma}}' {% if app.user.idioma.ididioma==idioma.ididioma %}selected{% endif %}> {{ idioma.descripcion }} </option>               
+                            {% endfor %}
                         </select>
                         {# <div class="input-group-append">
                             <button type="button"
@@ -95,22 +95,23 @@
 
                     <label class="col-8 mt-4" for="i-pais">*País</label>
                     <div class="input-group is-invalid">
-                        <select id="i-pais" class="form-control col-8" name="pais" required>
+                    <select name="pais" class="form-control col-8" name="pais" required>
+                        {% for pais in listadopaises %}    
+                            <option  value='{{pais.idpais}}' {% if app.user.pais.idpais==pais.idpais %}selected{% endif %}> {{ pais.nombre }} </option>               
+                        {% endfor %}
+                    </select>
+                        {# <select id="i-pais" class="form-control col-8" name="pais" required>
                             <option>...</option>
                             <option {% if app.user.pais.idpais==1 %}selected{% endif %} >España</option>
                             <option>...</option>
-                        </select>
-                        {# <div class="input-group-append">
-                            <button type="button"
-                                class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"></button>
-                        </div> #}
+                        </select> #}
                     </div>
                     <label class="col-8 mt-4" for="i-provincia">*Provincia</label>
                     <div class="input-group is-invalid">
                         <select id="i-provincia" class="form-control col-8" name="provincia" required>
-                            <option>...</option>
-                            <option {% if app.user.provincia.idprovincia==1 %}selected{% endif %} >Madrid</option>
-                            <option>...</option>
+                            {% for provincia in listadoprovincias %}    
+                                <option  value='{{provincia.idprovincia}}' {% if app.user.provincia.idprovincia==provincia.idprovincia %}selected{% endif %}> {{ provincia.nombre }} </option>               
+                            {% endfor %}
                         </select>
                         {# <div class="input-group-append">
                             <button type="button"
