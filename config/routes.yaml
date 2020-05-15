@@ -8,7 +8,7 @@
 
 app_Register_hello:
     path: /Register/hello
-    controller: App\Controller\Register::hello
+    controller: App\Controller\RegisterController::hello
     
 
 app_edit_cuenta:

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Pais
  *
  * @ORM\Table(name="pais")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PaisRepository")
  */
 class Pais
 {
