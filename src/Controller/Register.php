@@ -21,13 +21,18 @@ class Register extends AbstractController
     public function hello(EntityManagerInterface $manager)
     {   
         $manager = $this->getDoctrine()->getRepository(Pais::class);
-        $pais=$manager->findAll();
-        dump($pais);
+        $listadopaises=$manager->findAll();
+        // dump($pais);
+        dump($listadopaises);
+
         $manager = $this->getDoctrine()->getRepository(Idioma::class);
-        $idioma=$manager->findAll();
+        $listadoidioma=$manager->findAll();
+        dump($listadoidioma);
+
         $manager = $this->getDoctrine()->getRepository(Provincia::class);
-        $provincia=$manager->findAll(); 
-        return $this->render('Registro/register.html.twig');
+        $listadoprovincia=$manager->findAll();
+        dump($listadoprovincia);
+        return $this->render('Registro/register.html.twig',array('listadopaises'=>$listadopaises,'listadoidioma'=>$listadoidioma, 'listadoprovincia'=>$listadoprovincia));
     }
     /** 
     * @Route("/register/registrarusuario") 
@@ -44,7 +49,8 @@ class Register extends AbstractController
         $idioma=$manager->find($_REQUEST["idioma"]);
         $user->setIdioma($idioma);
         $manager = $this->getDoctrine()->getRepository(Provincia::class);
-        $provincia=$manager->find($_REQUEST["provincia"]);        
+        $provincia=$manager->find($_REQUEST["provincia"]);  
+        $user->setProvincia($provincia);      
         $user->setNombre($_REQUEST["nombre"]);
         $user->setApellidos($_REQUEST["apellidos"]);
         $user->setUsername($_REQUEST["email"]); 
@@ -56,7 +62,6 @@ class Register extends AbstractController
         $user->setCiudad($_REQUEST["ciudad"]);
         $user->setDireccion($_REQUEST["direccion"]);
         $user->setCodigopostal($_REQUEST["codigoPostal"]);
-        $user->setProvincia($provincia);
         $user->setRoles(["ROLE_USER"]);
         $passwordForm = $_REQUEST["password"];
         if($passwordForm!=""){
