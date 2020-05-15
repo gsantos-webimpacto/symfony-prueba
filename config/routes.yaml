@@ -5,13 +5,14 @@
 #     path: /lucky/number
 #     controller: App\Controller\LuckyController::number
 
-
 app_Register_hello:
     path: /Register/hello
     controller: App\Controller\RegisterController::hello
     
-
 app_edit_cuenta:
     path: /EditarCuentaController/edit
     controller: App\Controller\EditarCuentaController::edit
 
+app_Provincia_findProvinciasByPais:
+    path: /ProvinciaController/findProvinciasByPais
+    controller: App\Controller\ProvinciaController::findProvinciasByPais

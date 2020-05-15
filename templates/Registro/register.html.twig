@@ -7,7 +7,7 @@
     <title>Registro</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
-    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -119,6 +119,7 @@
             </div>
         </form>
     </div>
+    
     <script>
         var pais=document.getElementById('i-pais');
         pais.addEventListener("change",function(){
@@ -135,6 +136,17 @@
             var provincia=document.getElementById('i-provincia');
             $("#i-provincia").prepend("<option value='Auto 0' selected='selected'>Auto 0</option>");
             //buscarProvinciasByPais(idPais)
+            $.ajax({
+                type: "POST",
+                url: "/findProvinciasByPais{idpais}",
+                data: {
+                    zoom: e.target.getZoom()
+                },
+                dataType: "array",
+                success: function(response) {
+                    console.log(response);
+            }
+       });
         });
         {# function buscarProvinciasByPais(id){
             var datos=$.ajax({
