@@ -1,5 +1,4 @@
 <?php
-// src/Controller/LuckyController.php
 namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -8,10 +7,9 @@ use App\Entity\User;
 use App\Entity\Pais;
 use App\Entity\Idioma;
 use App\Entity\Provincia;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-// use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
-// use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class Register extends AbstractController
 {
@@ -19,28 +17,34 @@ class Register extends AbstractController
     /** 
     * @Route("/register") 
     */ 
-    public function hello()
+    //funcion que redireige al formulario de registro
+    public function hello(EntityManagerInterface $manager)
     {   
+        $manager = $this->getDoctrine()->getRepository(Pais::class);
+        $pais=$manager->findAll();
+        dump($pais);
+        $manager = $this->getDoctrine()->getRepository(Idioma::class);
+        $idioma=$manager->findAll();
+        $manager = $this->getDoctrine()->getRepository(Provincia::class);
+        $provincia=$manager->findAll(); 
         return $this->render('Registro/register.html.twig');
     }
     /** 
     * @Route("/register/registrarusuario") 
     */ 
-    public function registrar(EntityManagerInterface $manager)
-    // public function registrar()
+    //Funcion que inserta un usuario en la base de datos
+    public function registrar(EntityManagerInterface $manager ,UserPasswordEncoderInterface $passwordEncoder)
     {   
         $entityManager = $this->getDoctrine()->getManager();
-
+        $user = new User();
         $manager = $this->getDoctrine()->getRepository(Pais::class);
         $pais=$manager->find($_REQUEST["pais"]);
+        $user->setPais($pais);
         $manager = $this->getDoctrine()->getRepository(Idioma::class);
         $idioma=$manager->find($_REQUEST["idioma"]);
-        dump($idioma);
+        $user->setIdioma($idioma);
         $manager = $this->getDoctrine()->getRepository(Provincia::class);
-        $provincia=$manager->find($_REQUEST["provincia"]);
-        
-        
-        $user = new User();
+        $provincia=$manager->find($_REQUEST["provincia"]);        
         $user->setNombre($_REQUEST["nombre"]);
         $user->setApellidos($_REQUEST["apellidos"]);
         $user->setUsername($_REQUEST["email"]); 
@@ -48,14 +52,12 @@ class Register extends AbstractController
         $user->setFechadenacimiento($date);
         $user->setSexo($_REQUEST["sexo"]);
         $user->setTelefono($_REQUEST["telefono"]);
-        $user->setDatosadicionales($_REQUEST["datosAdicionales"]);
-        $user->setIdioma($idioma);
+        $user->setDatosadicionales($_REQUEST["datosAdicionales"]); 
         $user->setCiudad($_REQUEST["ciudad"]);
         $user->setDireccion($_REQUEST["direccion"]);
         $user->setCodigopostal($_REQUEST["codigoPostal"]);
-        $user->setPais($pais);
         $user->setProvincia($provincia);
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles(["ROLE_USER"]);
         $passwordForm = $_REQUEST["password"];
         if($passwordForm!=""){
             $password = $passwordEncoder->encodePassword($user,$passwordForm);
@@ -64,7 +66,7 @@ class Register extends AbstractController
         dump($user);
         $entityManager->persist($user);
         $entityManager->flush();
-        return $this->render('Registro/register.html.twig');
+        return $this->render('/login');
     }
     
 }

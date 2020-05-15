@@ -163,11 +163,11 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setUsername(String $email): self
-    {
-        $this->email = $email;
-        return $this;
-    }
+    // public function setUsername(String $email): self
+    // {
+    //     $this->email = $email;
+    //     return $this;
+    // }
     /**
      * @see UserInterface
      */
