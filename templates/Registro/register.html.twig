@@ -7,18 +7,18 @@
     <title>Registro</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
-
+    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
 </head>
 
 <body>
     <div class="container">
         <form action="/register/registrarusuario">
-            <div class="row">
+            {# <div class="row">
                 <label class="col-9 mt-4" for="i-id">ID</label>
                 <input type="text" name="id" id="i-id" class="form-control col-4"
                     placeholder="M-02-T-150-0000000009X" />
-            </div>
-            <div class="row mb-4">
+            </div> #}
+            <div class="row mt-4 mb-4">
                 <div class="col-6 mr-3 row">
                     <label class="col-8 mt-4" for="i-nombre">*Nombre</label>
                     <input type="text" name="nombre" id="i-nombre" class="form-control col-8" placeholder="Nombre"
@@ -100,7 +100,7 @@
                     <div class="input-group is-invalid">
                         <select id="i-provincia" class="form-control col-8" name="provincia" required>
                             {% for provincia in listadoprovincia %}
-                            <option  value='{{provincia.idprovincia}}' {% if provincia.idprovincia==1 %}selected{% endif %}> {{ provincia.nombre }} </option>
+                            <option class="o-provincia" value='{{provincia.idprovincia}}' {% if provincia.idprovincia==1 %}selected{% endif %}> {{ provincia.nombre }} </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -119,6 +119,36 @@
             </div>
         </form>
     </div>
+    <script>
+        var pais=document.getElementById('i-pais');
+        pais.addEventListener("change",function(){
+            var idPais=pais.value;
+            console.log(idPais);
+            var provincias=document.getElementsByClassName('o-provincia');
+
+            if(provincias.length>0){
+                for (var i=0;i<provincias.length;i++){
+                    var result = provincias[i];
+                    result.remove();
+                }
+            }
+            var provincia=document.getElementById('i-provincia');
+            $("#i-provincia").prepend("<option value='Auto 0' selected='selected'>Auto 0</option>");
+            //buscarProvinciasByPais(idPais)
+        });
+        {# function buscarProvinciasByPais(id){
+            var datos=$.ajax({
+                url:"getProvinciasByIdPais.php",
+                type:"GET",
+                data:{
+                    idPais:id
+                }
+                dataType: "text",
+                async:false
+            }).responseText;
+            return datos;
+        } #}
+    </script>
 </body>
 
 </html>

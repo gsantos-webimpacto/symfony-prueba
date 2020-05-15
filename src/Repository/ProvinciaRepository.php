@@ -18,7 +18,35 @@ class ProvinciaRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Provincia::class);
     }
+<<<<<<< HEAD
 
+=======
+    public function findByPais($idpais): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery('
+            SELECT p FROM App\Entity\Provincia p 
+            WHERE p.pais = :idpais
+            ORDER BY p.nombre ASC')->setParameter('idpais', $idpais);
+        return $query->getResult();
+    }
+        // public function findProvinciasByIdPais($idpais): array
+    // {
+    //     $conn = $this->getEntityManager()->getConnection();
+
+    //     $sql = '
+    //         SELECT * FROM provincia p ,pais pa
+    //         WHERE p.pais.idpais = :idpais
+    //         ORDER BY p.price ASC
+    //         ';
+            
+    //     $stmt = $conn->prepare($sql);
+    //     $stmt->execute(['price' => $price]);
+
+    //     return $stmt->fetchAll();
+    // }
+>>>>>>> 714c034e2644953cf93325c9a317a6e9460d1450
     // /**
     //  * @return Provincia[] Returns an array of Provincia objects
     //  */

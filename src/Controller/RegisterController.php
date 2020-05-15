@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class Register extends AbstractController
+class RegisterController extends AbstractController
 {
 
     /** 
@@ -20,18 +20,16 @@ class Register extends AbstractController
     //funcion que redireige al formulario de registro
     public function hello(EntityManagerInterface $manager)
     {   
+        // $Provincia = $this->getDoctrine()
+        // ->getRepository(Provincia::class)
+        // ->findByPais(1);
+        // dump($Provincia);
         $manager = $this->getDoctrine()->getRepository(Pais::class);
         $listadopaises=$manager->findAll();
-        // dump($pais);
-        dump($listadopaises);
-
         $manager = $this->getDoctrine()->getRepository(Idioma::class);
         $listadoidioma=$manager->findAll();
-        dump($listadoidioma);
-
         $manager = $this->getDoctrine()->getRepository(Provincia::class);
         $listadoprovincia=$manager->findAll();
-        dump($listadoprovincia);
         return $this->render('Registro/register.html.twig',array('listadopaises'=>$listadopaises,'listadoidioma'=>$listadoidioma, 'listadoprovincia'=>$listadoprovincia));
     }
     /** 
@@ -71,7 +69,8 @@ class Register extends AbstractController
         dump($user);
         $entityManager->persist($user);
         $entityManager->flush();
-        return $this->render('/login');
+        return $this->redirect('/login');
+
     }
     
 }
