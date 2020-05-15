@@ -12,7 +12,7 @@
 
 <body>
     <div class="container">
-        <form>
+        <form action="/register/registrarusuario">
             <div class="row">
                 <label class="col-9 mt-4" for="i-id">ID</label>
                 <input type="text" name="id" id="i-id" class="form-control col-4"
@@ -61,12 +61,12 @@
                     </div>
 
                     <div class="form-check form-check-inline col-4 mt-4">
-                        <input class="form-check-input fa-2x" type="radio" name="sexo" id="i-hombre" value="hombre"
+                        <input class="form-check-input fa-2x" type="radio" name="sexo" id="i-hombre" value="Hombre"
                             required />
                         <label class="form-check-label" for="i-hombre">Hombre</label>
                     </div>
                     <div class="form-check form-check-inline col-4 mt-4">
-                        <input class="form-check-input fa-2x" type="radio" name="sexo" id="i-mujer" value="mujer"
+                        <input class="form-check-input fa-2x" type="radio" name="sexo" id="i-mujer" value="Mujer"
                             required />
                         <label class="form-check-label" for="i-mujer">Mujer</label>
                     </div>
@@ -77,13 +77,10 @@
                     <label class="col-8 mt-4" for="i-idioma">*Idioma</label>
                     <div class="input-group is-invalid">
                         <select id="i-idioma" class="form-control col-8" name="idioma" required>
-                            <option selected>Español</option>
-                            <option>...</option>
+                            {% for idioma in listadoidioma %}
+                            <option  value='{{idioma.ididioma}}' {% if idioma.ididioma==1 %}selected{% endif %}> {{ idioma.descripcion }} </option>
+                            {% endfor %}
                         </select>
-                        {# <div class="input-group-append">
-                            <button type="button"
-                                class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"></button>
-                        </div> #}
                     </div>
                 </div>
                 <div class="col-5 row ml-2 pb-5 mb-5">
@@ -94,24 +91,18 @@
                     <label class="col-8 mt-4" for="i-pais">*País</label>
                     <div class="input-group is-invalid">
                         <select id="i-pais" class="form-control col-8" name="pais" required>
-                            <option selected>España</option>
-                            <option>...</option>
+                            {% for pais in listadopaises %}
+                            <option  value='{{pais.idpais}}' {% if pais.idpais==1 %}selected{% endif %}> {{ pais.nombre }} </option>
+                            {% endfor %}
                         </select>
-                        {# <div class="input-group-append">
-                            <button type="button"
-                                class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"></button>
-                        </div> #}
                     </div>
                     <label class="col-8 mt-4" for="i-provincia">*Provincia</label>
                     <div class="input-group is-invalid">
                         <select id="i-provincia" class="form-control col-8" name="provincia" required>
-                            <option selected>Madrid</option>
-                            <option>...</option>
+                            {% for provincia in listadoprovincia %}
+                            <option  value='{{provincia.idprovincia}}' {% if provincia.idprovincia==1 %}selected{% endif %}> {{ provincia.nombre }} </option>
+                            {% endfor %}
                         </select>
-                        {# <div class="input-group-append">
-                            <button type="button"
-                                class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"></button>
-                        </div> #}
                     </div>
 
                     <label class="col-8 mt-4" for="i-ciudad">Ciudad</label>
@@ -122,6 +113,8 @@
 
                     <label class="col-8 mt-4" for="i-codigoPostal">CódigoPostal</label>
                     <input type="number" name="codigoPostal" id="i-codigoPostal" class="form-control col-8" />
+                    
+                    <button class="btn-primary btn mt-4 col-5" type="submit">Guardar</button>
                 </div>
             </div>
         </form>
