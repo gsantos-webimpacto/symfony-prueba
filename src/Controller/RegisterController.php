@@ -20,16 +20,13 @@ class RegisterController extends AbstractController
     //funcion que redireige al formulario de registro
     public function hello(EntityManagerInterface $manager)
     {   
-        // $Provincia = $this->getDoctrine()
-        // ->getRepository(Provincia::class)
-        // ->findByPais(1);
-        // dump($Provincia);
+
         $manager = $this->getDoctrine()->getRepository(Pais::class);
         $listadopaises=$manager->findAll();
         $manager = $this->getDoctrine()->getRepository(Idioma::class);
         $listadoidioma=$manager->findAll();
         $manager = $this->getDoctrine()->getRepository(Provincia::class);
-        $listadoprovincia=$manager->findAll();
+        $listadoprovincia=$manager->findByPais($listadopaises[0]->getIdpais());
         return $this->render('Registro/register.html.twig',array('listadopaises'=>$listadopaises,'listadoidioma'=>$listadoidioma, 'listadoprovincia'=>$listadoprovincia));
     }
     /** 
@@ -66,7 +63,7 @@ class RegisterController extends AbstractController
             $password = $passwordEncoder->encodePassword($user,$passwordForm);
             $user->setPassword($password);
         }
-        dump($user);
+        // dump($user);
         $entityManager->persist($user);
         $entityManager->flush();
         return $this->redirect('/login');

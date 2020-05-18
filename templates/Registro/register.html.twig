@@ -101,7 +101,7 @@
                         <select id="i-provincia" class="form-control col-8" name="provincia" required>
                             {% for provincia in listadoprovincia %}
                             <option class="o-provincia" value='{{provincia.idprovincia}}' {% if provincia.idprovincia==1 %}selected{% endif %}> {{ provincia.nombre }} </option>
-                            {% endfor %}
+                            {% endfor %} 
                         </select>
                     </div>
 
@@ -124,42 +124,32 @@
         var pais=document.getElementById('i-pais');
         pais.addEventListener("change",function(){
             var idPais=pais.value;
-            console.log(idPais);
-            var provincias=document.getElementsByClassName('o-provincia');
-
-            if(provincias.length>0){
-                for (var i=0;i<provincias.length;i++){
-                    var result = provincias[i];
+            var $provincias=$('.o-provincia');
+            if($provincias.length>0){
+                for (var i=0;i<$provincias.length;i++){
+                    var result = $provincias[i];
                     result.remove();
                 }
-            }
-            var provincia=document.getElementById('i-provincia');
-            $("#i-provincia").prepend("<option value='Auto 0' selected='selected'>Auto 0</option>");
-            //buscarProvinciasByPais(idPais)
-            $.ajax({
-                type: "POST",
-                url: "/findProvinciasByPais{idpais}",
-                data: {
-                    zoom: e.target.getZoom()
-                },
-                dataType: "array",
-                success: function(response) {
-                    console.log(response);
-            }
+            }         
+            $.ajax({  
+               url:        '/findProvinciasByPais/'+idPais.toString(),  
+               type:       'POST',   
+               dataType:   'json', 
+               async:      true,  
+               success: function(data, status) { 
+                   var e = $('<option class="o-provincia" id="op-'+0+'" value='+data[0]['idprovincia']+' selected>'+data[0]['nombre']+'</option>');
+                    $("#i-provincia").prepend(e);
+                  for(i = 1; i < data.length; i++) {  
+                     student = data[i];  
+                     var e = $('<option class="o-provincia" id="op-'+i+'" value='+student['idprovincia']+'>'+student['nombre']+'</option>');
+                     $("#i-provincia").prepend(e);
+                  }  
+               },  
+               error : function(xhr, textStatus, errorThrown) {  
+                    console.log('Ajax failed.');
+               }  
+            });  
        });
-        });
-        {# function buscarProvinciasByPais(id){
-            var datos=$.ajax({
-                url:"getProvinciasByIdPais.php",
-                type:"GET",
-                data:{
-                    idPais:id
-                }
-                dataType: "text",
-                async:false
-            }).responseText;
-            return datos;
-        } #}
     </script>
 </body>
 

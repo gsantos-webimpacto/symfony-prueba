@@ -3,18 +3,33 @@
 namespace App\Controller;
 use App\Entity\Provincia;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-class ProvinciasController
+class ProvinciasController extends AbstractController
 {
     /**
-     * @Route("/findProvinciasByPais{idpais}", name="app_find_provincias")
+     * @Route("/findProvinciasByPais/{idpais}", name="app_find_provincias")
      */
     public function findProvinciasByPais($idpais)
     {
-        //$provincias = $this->getDoctrine()->getRepository(Provincia::class)->findByPais(idpais);
-        //dump($provincias);
-        return new Response($provincias);
+        dump("Holi");
+        $provincias = $this->getDoctrine()->getRepository(Provincia::class)->findByPais($idpais);
+        dump($provincias);
+        $jsonData = array();  
+        $idx = 0;  
+        foreach($provincias as $provincia) {  
+            $temp = array(
+                'idprovincia' => $provincia->getIdprovincia(),  
+                'nombre' => $provincia->getNombre(),  
+            );   
+            $jsonData[$idx++] = $temp;  
+        } 
+        dump($jsonData);
+        // return new Response($provincias);
+        return new JsonResponse($jsonData);
         //return $provincias;
 
     }
