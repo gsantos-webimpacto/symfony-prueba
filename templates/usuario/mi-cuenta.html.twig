@@ -13,7 +13,7 @@
 <body>
     {% if is_granted('ROLE_USER') %}
     <div class="container">
-        <form action="/mi-cuenta/editarCuenta">
+        <form method="POST" action="/mi-cuenta/editarCuenta">
             <div class="row">
                 <label class="col-9 mt-4" for="i-id">ID</label>
                 <input type="text" name="id" id="i-id" class="form-control col-4"

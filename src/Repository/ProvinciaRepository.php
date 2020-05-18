@@ -18,9 +18,6 @@ class ProvinciaRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Provincia::class);
     }
-<<<<<<< HEAD
-
-=======
     public function findByPais($idpais): array
     {
         $entityManager = $this->getEntityManager();
@@ -46,7 +43,6 @@ class ProvinciaRepository extends ServiceEntityRepository
 
     //     return $stmt->fetchAll();
     // }
->>>>>>> 714c034e2644953cf93325c9a317a6e9460d1450
     // /**
     //  * @return Provincia[] Returns an array of Provincia objects
     //  */

@@ -15,3 +15,6 @@ app_edit_cuenta:
     path: /EditarCuentaController/edit
     controller: App\Controller\EditarCuentaController::edit
 
+app_find_provincias:
+    path: /ProvinciasController/findProvinciasByPais
+    controller: App\Controller\ProvinciasController::findProvinciasByPais
