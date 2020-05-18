@@ -28,9 +28,7 @@ class ProvinciasController extends AbstractController
             $jsonData[$idx++] = $temp;  
         } 
         dump($jsonData);
-        // return new Response($provincias);
         return new JsonResponse($jsonData);
-        //return $provincias;
 
     }
 }

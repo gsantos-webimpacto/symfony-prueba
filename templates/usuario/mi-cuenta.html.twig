@@ -7,7 +7,7 @@
     <title>Registro</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
-
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -95,9 +95,9 @@
 
                     <label class="col-8 mt-4" for="i-pais">*País</label>
                     <div class="input-group is-invalid">
-                    <select name="pais" class="form-control col-8" name="pais" required>
+                    <select name="pais" id="i-pais" class="form-control col-8" required>
                         {% for pais in listadopaises %}    
-                            <option  value='{{pais.idpais}}' {% if app.user.pais.idpais==pais.idpais %}selected{% endif %}> {{ pais.nombre }} </option>               
+                            <option value='{{pais.idpais}}' {% if app.user.pais.idpais==pais.idpais %}selected{% endif %}> {{ pais.nombre }} </option>               
                         {% endfor %}
                     </select>
                         {# <select id="i-pais" class="form-control col-8" name="pais" required>
@@ -110,7 +110,7 @@
                     <div class="input-group is-invalid">
                         <select id="i-provincia" class="form-control col-8" name="provincia" required>
                             {% for provincia in listadoprovincias %}    
-                                <option  value='{{provincia.idprovincia}}' {% if app.user.provincia.idprovincia==provincia.idprovincia %}selected{% endif %}> {{ provincia.nombre }} </option>               
+                                <option class="o-provincia" value='{{provincia.idprovincia}}' {% if app.user.provincia.idprovincia==provincia.idprovincia %}selected{% endif %}> {{ provincia.nombre }} </option>               
                             {% endfor %}
                         </select>
                         {# <div class="input-group-append">
@@ -139,6 +139,37 @@
             <a href="/login">Click aquí para entrar</a>
         </div>
     {% endif %}
-</body>
 
+        <script>
+        var pais=document.getElementById('i-pais');
+        pais.addEventListener("change",function(){
+            var idPais=pais.value;
+            var $provincias=$('.o-provincia');
+            if($provincias.length>0){
+                for (var i=0;i<$provincias.length;i++){
+                    var result = $provincias[i];
+                    result.remove();
+                }
+            }         
+            $.ajax({  
+               url:        '/findProvinciasByPais/'+idPais.toString(),  
+               type:       'POST',   
+               dataType:   'json', 
+               async:      true,  
+               success: function(data, status) { 
+                   var e = $('<option class="o-provincia" id="op-'+0+'" value='+data[0]['idprovincia']+' selected>'+data[0]['nombre']+'</option>');
+                    $("#i-provincia").prepend(e);
+                  for(i = 1; i < data.length; i++) {  
+                     student = data[i];  
+                     var e = $('<option class="o-provincia" id="op-'+i+'" value='+student['idprovincia']+'>'+student['nombre']+'</option>');
+                     $("#i-provincia").prepend(e);
+                  }  
+               },  
+               error : function(xhr, textStatus, errorThrown) {  
+                    console.log('Ajax failed.');
+               }  
+            });  
+       });
+    </script>
+</body>
 </html>

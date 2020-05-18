@@ -23,8 +23,8 @@ class EditarCuentaController extends AbstractController
         $em = $this->getDoctrine()->getManager()->getRepository(Pais::class);         
         $listadopaises=$em->findAll(); 
         $em = $this->getDoctrine()->getRepository(Provincia::class);         
-        $listadoprovincias=$em->findAll();
-        $em = $this->getDoctrine()->getRepository(Idioma::class);         
+        $listadoprovincias=$em->findByPais($listadopaises[0]->getIdpais());
+        $em = $this->getDoctrine()->getRepository(Idioma::class);   
         $listadoidiomas=$em->findAll();
         return $this->render('usuario/mi-cuenta.html.twig',array('listadopaises'=>$listadopaises,'listadoprovincias'=>$listadoprovincias
                                                                     ,'listadoidiomas'=>$listadoidiomas));
